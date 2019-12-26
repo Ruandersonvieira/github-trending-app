@@ -3,7 +3,8 @@ import { RectButton } from 'react-native-gesture-handler';
 
 export const SafeArea = styled.SafeAreaView`
   flex: 1;
-  padding: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
 `;
 
 export const Container = styled.View`
@@ -12,6 +13,16 @@ export const Container = styled.View`
 
 export const Row = styled.View`
   flex-direction: row;
+`;
+
+export const List = styled.ScrollView.attrs({
+  showsVerticalScrollIndicator: false,
+})``;
+
+export const ContainerCard = styled.View`
+  flex-direction: column;
+  padding-top: 10px;
+  padding-bottom: 15px;
 `;
 
 export const Card = styled.View`
