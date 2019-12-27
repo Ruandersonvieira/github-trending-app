@@ -4,11 +4,11 @@ import React, { Component } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-import { StyleSheet, Text, SafeAreaView, ScrollView } from 'react-native';
+import { BubblesLoader, TextLoader } from 'react-native-indicator';
 
 import {
   SafeArea,
-  Container,
+  ContainerCenter,
   Row,
   List,
   Card,
@@ -41,14 +41,16 @@ class Trending extends Component {
               <Description>{repository.node.description}</Description>
             </Row>
             <ContainerRepositoryInfo>
-              <RowLanguage>
-                <LanguageColor
-                  circleColor={repository.node.primaryLanguage.color}
-                />
-                <LanguageText>
-                  {repository.node.primaryLanguage.name}
-                </LanguageText>
-              </RowLanguage>
+              {repository.node.primaryLanguage ? (
+                <RowLanguage>
+                  <LanguageColor
+                    circleColor={repository.node.primaryLanguage.color}
+                  />
+                  <LanguageText>
+                    {repository.node.primaryLanguage.name}
+                  </LanguageText>
+                </RowLanguage>
+              ) : null}
               <RowFork>
                 <Icon name="code-fork" size={16} color="#586069" />
                 <ForkText>{repository.node.forks.totalCount}</ForkText>
@@ -74,16 +76,13 @@ class Trending extends Component {
   render() {
     const { repositories } = this.props;
 
-    if (!repositories.loading) {
-      console.log(repositories.search.edges);
-    }
-
     return (
       <SafeArea>
         {repositories.loading ? (
-          <Row>
-            <LanguageText>Carregando...</LanguageText>
-          </Row>
+          <ContainerCenter>
+            <BubblesLoader color="#586069" />
+            <TextLoader text="Carregando" />
+          </ContainerCenter>
         ) : (
           this.renderRepositoriesList()
         )}
@@ -93,7 +92,7 @@ class Trending extends Component {
 }
 
 const RepositoryQuery = gql`
-  query {
+  {
     search(query: "is:public", type: REPOSITORY, first: 10) {
       repositoryCount
       edges {
