@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { BubblesLoader, TextLoader } from 'react-native-indicator';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import {
   SafeArea,
@@ -28,6 +29,38 @@ import {
 } from './styles';
 
 class Trending extends Component {
+  addToFavorite = async repository => {
+    let favoriteList = JSON.parse(await AsyncStorage.getItem('favoriteList'));
+
+    if (!favoriteList) {
+      favoriteList = [];
+    }
+
+    const isfavorite = await this.checkFavorite(repository);
+
+    if (!isfavorite) {
+      favoriteList.push(repository);
+      await AsyncStorage.setItem('favoriteList', JSON.stringify(favoriteList));
+    }
+  };
+
+  checkFavorite = async repository => {
+    const favoriteList = JSON.parse(await AsyncStorage.getItem('favoriteList'));
+
+    if (!favoriteList) {
+      return false;
+    }
+
+    const isfavorited = favoriteList.filter(item => {
+      return item.node.id === repository.node.id;
+    });
+
+    if (isfavorited.length === 0) {
+      return false;
+    }
+    return true;
+  };
+
   renderRepositoriesList = () => (
     <List>
       {this.props.repositories.search.edges.map(repository => (
@@ -60,10 +93,17 @@ class Trending extends Component {
                 <StarText>{repository.node.stargazers.totalCount}</StarText>
               </RowStar>
             </ContainerRepositoryInfo>
-
-            <StarButton>
+            <StarButton
+              onPress={() => {
+                this.addToFavorite(repository);
+              }}
+            >
               <Row>
-                <Icon name="star-o" size={18} color="#24292e" />
+                <Icon
+                  name={repository.node.fav ? 'star-o' : 'star'}
+                  size={18}
+                  color="#24292e"
+                />
                 <StarButtonText>Start</StarButtonText>
               </Row>
             </StarButton>
