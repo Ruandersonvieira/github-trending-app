@@ -1,21 +1,14 @@
 import React from 'react';
+import { ApolloProvider } from 'react-apollo';
+
+import apolloClient from './services/apollo';
 import './config/ReactotronConfig';
+import Routes from './routes';
 
-import { SafeAreaView, ScrollView, View, Text, StatusBar } from 'react-native';
-
-const App: () => React$Node = () => {
-  return (
-    <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView contentInsetAdjustmentBehavior="automatic">
-          <View>
-            <Text>OK</Text>
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </>
-  );
-};
+const App = () => (
+  <ApolloProvider client={apolloClient}>
+    <Routes />
+  </ApolloProvider>
+);
 
 export default App;
