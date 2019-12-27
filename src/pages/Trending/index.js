@@ -31,8 +31,8 @@ class Trending extends Component {
   renderRepositoriesList = () => (
     <List>
       {this.props.repositories.search.edges.map(repository => (
-        <ContainerCard>
-          <Card key={repository.id}>
+        <ContainerCard key={repository.node.id}>
+          <Card>
             <Row>
               <Icon name="book" size={16} color="#586069" />
               <Title>{repository.node.name}</Title>
