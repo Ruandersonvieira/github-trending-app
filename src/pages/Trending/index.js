@@ -1,3 +1,5 @@
+/* eslint-disable react/no-unused-state */
+/* eslint-disable react/state-in-constructor */
 /* eslint-disable react/prefer-stateless-function */
 /* eslint-disable react/no-unescaped-entities */
 import React, { Component } from 'react';
@@ -61,6 +63,18 @@ class Trending extends Component {
     return true;
   };
 
+  handleNavigate = repository => {
+    const { navigate } = this.props.navigation;
+
+    console.log(navigate);
+    console.log(repository);
+
+    navigate('Details', {
+      name: 'Details',
+      Details: repository,
+    });
+  };
+
   renderRepositoriesList = () => (
     <List>
       {this.props.repositories.search.edges.map(repository => (
@@ -68,7 +82,13 @@ class Trending extends Component {
           <Card>
             <Row>
               <Icon name="book" size={16} color="#586069" />
-              <Title>{repository.node.name}</Title>
+              <Title
+                onPress={() => {
+                  this.handleNavigate();
+                }}
+              >
+                {repository.node.name}
+              </Title>
             </Row>
             <Row>
               <Description>{repository.node.description}</Description>
@@ -99,11 +119,7 @@ class Trending extends Component {
               }}
             >
               <Row>
-                <Icon
-                  name={repository.node.fav ? 'star-o' : 'star'}
-                  size={18}
-                  color="#24292e"
-                />
+                <Icon name="star" size={18} color="#24292e" />
                 <StarButtonText>Start</StarButtonText>
               </Row>
             </StarButton>
