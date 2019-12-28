@@ -12,8 +12,7 @@ const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-      // authorization: `Bearer ${GITHUB_TOKEN}`,
-      authorization: `Bearer 911dead445e1825e4c373be9e5814e44c4116a1e`,
+      authorization: `Bearer ${GITHUB_TOKEN}`,
     },
   };
 });
