@@ -10,25 +10,22 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { BubblesLoader, TextLoader } from 'react-native-indicator';
 import AsyncStorage from '@react-native-community/async-storage';
-
 import { Alert } from 'react-native';
 
 import { StarButton, StarButtonText } from '../../components/Button';
-
 import { SafeArea, ContainerCenter, Row, List } from '../../components/Default';
-
 import {
   Card,
   ContainerCard,
-  Title,
-  Description,
+  TitleText,
+  DescriptionSmallText,
   ContainerRepositoryInfo,
-  RowLanguage,
+  LanguageRow,
   LanguageColor,
   LanguageText,
-  RowFork,
+  ForkRow,
   ForkText,
-  RowStar,
+  StarRow,
   StarText,
 } from '../../components/Card';
 
@@ -79,36 +76,38 @@ class Trending extends Component {
           <Card>
             <Row>
               <Icon name="book" size={16} color="#586069" />
-              <Title
+              <TitleText
                 onPress={() => {
-                  this.handleNavigate(repository.node);
+                  this.handleNavigate(repository);
                 }}
               >
                 {repository.node.name}
-              </Title>
+              </TitleText>
             </Row>
             <Row>
-              <Description>{repository.node.description}</Description>
+              <DescriptionSmallText>
+                {repository.node.description}
+              </DescriptionSmallText>
             </Row>
             <ContainerRepositoryInfo>
               {repository.node.primaryLanguage ? (
-                <RowLanguage>
+                <LanguageRow>
                   <LanguageColor
                     circleColor={repository.node.primaryLanguage.color}
                   />
                   <LanguageText>
                     {repository.node.primaryLanguage.name}
                   </LanguageText>
-                </RowLanguage>
+                </LanguageRow>
               ) : null}
-              <RowFork>
+              <ForkRow>
                 <Icon name="code-fork" size={16} color="#586069" />
                 <ForkText>{repository.node.forks.totalCount}</ForkText>
-              </RowFork>
-              <RowStar>
+              </ForkRow>
+              <StarRow>
                 <Icon name="star" size={16} color="#586069" />
                 <StarText>{repository.node.stargazers.totalCount}</StarText>
-              </RowStar>
+              </StarRow>
             </ContainerRepositoryInfo>
             <StarButton
               onPress={() => {

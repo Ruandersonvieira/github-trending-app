@@ -15,19 +15,41 @@ export const Card = styled.View`
   border-color: #d1d5da;
 `;
 
-export const Title = styled.Text`
+export const TitleText = styled.Text`
   font-weight: bold;
   font-size: 14px;
   padding-left: 5px;
   color: #0366d6;
 `;
 
-export const Description = styled.Text.attrs({
+export const OwnerRow = styled.View`
+  flex-direction: row;
+`;
+
+export const OwnerTextBold = styled.Text`
+  font-weight: bold;
+  color: #000;
+`;
+
+export const OwnerText = styled.Text`
+  color: #000;
+`;
+
+export const UrlText = styled.Text`
+  font-size: 14px;
+  color: #0366d6;
+`;
+export const DescriptionSmallText = styled.Text.attrs({
   numberOfLines: 2,
 })`
   font-size: 13px;
   line-height: 18px;
-  padding-top: 5px;
+  padding-top: 8px;
+`;
+export const DescriptionText = styled.Text`
+  font-size: 14px;
+  line-height: 18px;
+  padding-top: 3px;
 `;
 
 export const ContainerRepositoryInfo = styled.View`
@@ -35,23 +57,33 @@ export const ContainerRepositoryInfo = styled.View`
   padding-top: 5px;
 `;
 
-export const RowLanguage = styled.View`
+export const IssueRow = styled.View`
   flex-direction: row;
-  padding-right: 20px;
+  padding-top: 4px;
 `;
 
-export const LanguageColor = styled.View`
-  width: 18px;
-  height: 18px;
-  border-radius: 9px;
-  background: ${props => props.circleColor || '#fff'};
+export const IssueText = styled.Text`
+  padding-left: 5px;
+  color: ${props => props.color || '#fff'};
+`;
+
+export const LanguageRow = styled.View`
+  flex-direction: row;
+  padding-right: 20px;
 `;
 
 export const LanguageText = styled.Text`
   padding-left: 5px;
 `;
 
-export const RowFork = styled.View`
+export const LanguageColor = styled.View`
+  width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  background: ${props => props.circleColor};
+`;
+
+export const ForkRow = styled.View`
   flex-direction: row;
   padding-right: 20px;
 `;
@@ -60,7 +92,7 @@ export const ForkText = styled.Text`
   padding-left: 5px;
 `;
 
-export const RowStar = styled.View`
+export const StarRow = styled.View`
   flex-direction: row;
 `;
 
