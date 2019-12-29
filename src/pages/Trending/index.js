@@ -1,3 +1,5 @@
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable react/prop-types */
 /* eslint-disable react/no-unused-state */
 /* eslint-disable react/state-in-constructor */
 /* eslint-disable react/prefer-stateless-function */
@@ -11,13 +13,11 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 import { Alert } from 'react-native';
 
-import { StarButton, StarButtonText } from '../../components/button';
+import { StarButton, StarButtonText } from '../../components/Button';
+
+import { SafeArea, ContainerCenter, Row, List } from '../../components/Default';
 
 import {
-  SafeArea,
-  ContainerCenter,
-  Row,
-  List,
   Card,
   ContainerCard,
   Title,
@@ -30,7 +30,7 @@ import {
   ForkText,
   RowStar,
   StarText,
-} from './styles';
+} from '../../components/Card';
 
 class Trending extends Component {
   addToFavorite = async repository => {
