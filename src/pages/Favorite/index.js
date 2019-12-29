@@ -54,7 +54,7 @@ class Favorite extends Component {
 
     await AsyncStorage.setItem('favoriteList', JSON.stringify(favoriteList));
 
-    Alert.alert('Removido com Sucesso!');
+    Alert.alert('Removed from Favorites!');
   };
 
   handleNavigate = repository => {

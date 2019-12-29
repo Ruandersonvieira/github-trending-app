@@ -42,7 +42,7 @@ export default class Details extends Component {
       favoriteList.push(repository);
       await AsyncStorage.setItem('favoriteList', JSON.stringify(favoriteList));
 
-      Alert.alert('Adicionado com Sucesso!');
+      Alert.alert('Add to Favorites!');
     } else {
       favoriteList.splice(
         favoriteList.findIndex(
@@ -53,7 +53,7 @@ export default class Details extends Component {
 
       await AsyncStorage.setItem('favoriteList', JSON.stringify(favoriteList));
 
-      Alert.alert('Removido com Sucesso!');
+      Alert.alert('Removed from Favorites!');
     }
   };
 

@@ -40,7 +40,7 @@ class Trending extends Component {
     const isfavorite = await this.checkFavorite(repository);
 
     if (!isfavorite) {
-      Alert.alert('Adicionado com Sucesso!');
+      Alert.alert('Add to Favorites!');
       favoriteList.push(repository);
       await AsyncStorage.setItem('favoriteList', JSON.stringify(favoriteList));
     } else {
@@ -53,7 +53,7 @@ class Trending extends Component {
 
       await AsyncStorage.setItem('favoriteList', JSON.stringify(favoriteList));
 
-      Alert.alert('Removido com Sucesso!');
+      Alert.alert('Removed from Favorites!');
     }
   };
 
