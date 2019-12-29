@@ -30,7 +30,7 @@ import {
 } from '../../components/Card';
 
 class Trending extends Component {
-  addToFavorite = async repository => {
+  changeFavorite = async repository => {
     let favoriteList = JSON.parse(await AsyncStorage.getItem('favoriteList'));
 
     if (!favoriteList) {
@@ -43,6 +43,17 @@ class Trending extends Component {
       Alert.alert('Adicionado com Sucesso!');
       favoriteList.push(repository);
       await AsyncStorage.setItem('favoriteList', JSON.stringify(favoriteList));
+    } else {
+      favoriteList.splice(
+        favoriteList.findIndex(
+          favorite => favorite.node.id === repository.node.id
+        ),
+        1
+      );
+
+      await AsyncStorage.setItem('favoriteList', JSON.stringify(favoriteList));
+
+      Alert.alert('Removido com Sucesso!');
     }
   };
 
@@ -111,7 +122,7 @@ class Trending extends Component {
             </ContainerRepositoryInfo>
             <StarButton
               onPress={() => {
-                this.addToFavorite(repository);
+                this.changeFavorite(repository);
               }}
             >
               <Row>

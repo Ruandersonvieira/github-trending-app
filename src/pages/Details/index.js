@@ -29,7 +29,7 @@ export default class Details extends Component {
     title: navigation.getParam('repository').node.name,
   });
 
-  addToFavorite = async repository => {
+  changeFavorite = async repository => {
     let favoriteList = JSON.parse(await AsyncStorage.getItem('favoriteList'));
 
     if (!favoriteList) {
@@ -39,9 +39,21 @@ export default class Details extends Component {
     const isfavorite = await this.checkFavorite(repository);
 
     if (!isfavorite) {
-      Alert.alert('Adicionado com Sucesso!');
       favoriteList.push(repository);
       await AsyncStorage.setItem('favoriteList', JSON.stringify(favoriteList));
+
+      Alert.alert('Adicionado com Sucesso!');
+    } else {
+      favoriteList.splice(
+        favoriteList.findIndex(
+          favorite => favorite.node.id === repository.node.id
+        ),
+        1
+      );
+
+      await AsyncStorage.setItem('favoriteList', JSON.stringify(favoriteList));
+
+      Alert.alert('Removido com Sucesso!');
     }
   };
 
@@ -79,7 +91,7 @@ export default class Details extends Component {
           <TitleText>{repository.node.name}</TitleText>
         </Row>
         <OwnerRow>
-          <OwnerTextBold>Owner:</OwnerTextBold>
+          <OwnerTextBold>Owner: </OwnerTextBold>
           <OwnerText>{repository.node.owner.login}</OwnerText>
         </OwnerRow>
         {repository.node.hasIssuesEnabled ? (
@@ -129,7 +141,7 @@ export default class Details extends Component {
         </ContainerRepositoryInfo>
         <StarButton
           onPress={() => {
-            this.addToFavorite(repository);
+            this.changeFavorite(repository);
           }}
         >
           <Row>
