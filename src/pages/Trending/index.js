@@ -153,9 +153,8 @@ const RepositoryQuery = gql`
             id
             name
             description
-            resourcePath
+            url
             hasIssuesEnabled
-            openGraphImageUrl
             owner {
               login
             }
@@ -167,6 +166,9 @@ const RepositoryQuery = gql`
               name
             }
             forks {
+              totalCount
+            }
+            issues(filterBy: { states: OPEN }) {
               totalCount
             }
           }

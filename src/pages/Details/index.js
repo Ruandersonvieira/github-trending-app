@@ -62,6 +62,12 @@ export default class Details extends Component {
     return true;
   };
 
+  handleNavigate = repository => {
+    const { navigate } = this.props.navigation;
+
+    navigate('ViewPage', { repository });
+  };
+
   render() {
     const { navigation } = this.props;
     const repository = navigation.getParam('repository');
@@ -79,7 +85,9 @@ export default class Details extends Component {
         {repository.node.hasIssuesEnabled ? (
           <IssueRow>
             <Icon name="bookmark" size={16} color="#e61919" />
-            <IssueText color="#e61919">Have Open Issue</IssueText>
+            <IssueText color="#e61919">
+              Have {repository.node.issues.totalCount} Open Issue
+            </IssueText>
           </IssueRow>
         ) : (
           <IssueRow>
@@ -91,7 +99,13 @@ export default class Details extends Component {
           <DescriptionText>{repository.node.description}</DescriptionText>
         </Row>
         <Row>
-          <UrlText>https://github.com{repository.node.resourcePath}</UrlText>
+          <UrlText
+            onPress={() => {
+              this.handleNavigate(repository);
+            }}
+          >
+            {repository.node.url}
+          </UrlText>
         </Row>
         <ContainerRepositoryInfo>
           {repository.node.primaryLanguage ? (
