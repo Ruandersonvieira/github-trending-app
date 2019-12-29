@@ -9,6 +9,10 @@ import gql from 'graphql-tag';
 import { BubblesLoader, TextLoader } from 'react-native-indicator';
 import AsyncStorage from '@react-native-community/async-storage';
 
+import { Alert } from 'react-native';
+
+import { StarButton, StarButtonText } from '../../components/button';
+
 import {
   SafeArea,
   ContainerCenter,
@@ -26,8 +30,6 @@ import {
   ForkText,
   RowStar,
   StarText,
-  StarButton,
-  StarButtonText,
 } from './styles';
 
 class Trending extends Component {
@@ -41,6 +43,7 @@ class Trending extends Component {
     const isfavorite = await this.checkFavorite(repository);
 
     if (!isfavorite) {
+      Alert.alert('Adicionado com Sucesso!');
       favoriteList.push(repository);
       await AsyncStorage.setItem('favoriteList', JSON.stringify(favoriteList));
     }
