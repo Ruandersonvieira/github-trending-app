@@ -1,3 +1,5 @@
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable react/prop-types */
 /* eslint-disable react/no-unused-state */
 /* eslint-disable react/state-in-constructor */
 /* eslint-disable react/prefer-stateless-function */
@@ -8,30 +10,27 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { BubblesLoader, TextLoader } from 'react-native-indicator';
 import AsyncStorage from '@react-native-community/async-storage';
+import { Alert } from 'react-native';
 
+import { StarButton, StarButtonText } from '../../components/Button';
+import { SafeArea, ContainerCenter, Row, List } from '../../components/Default';
 import {
-  SafeArea,
-  ContainerCenter,
-  Row,
-  List,
   Card,
   ContainerCard,
-  Title,
-  Description,
+  TitleText,
+  DescriptionSmallText,
   ContainerRepositoryInfo,
-  RowLanguage,
+  LanguageRow,
   LanguageColor,
   LanguageText,
-  RowFork,
+  ForkRow,
   ForkText,
-  RowStar,
+  StarRow,
   StarText,
-  StarButton,
-  StarButtonText,
-} from './styles';
+} from '../../components/Card';
 
 class Trending extends Component {
-  addToFavorite = async repository => {
+  changeFavorite = async repository => {
     let favoriteList = JSON.parse(await AsyncStorage.getItem('favoriteList'));
 
     if (!favoriteList) {
@@ -41,8 +40,20 @@ class Trending extends Component {
     const isfavorite = await this.checkFavorite(repository);
 
     if (!isfavorite) {
+      Alert.alert('Adicionado com Sucesso!');
       favoriteList.push(repository);
       await AsyncStorage.setItem('favoriteList', JSON.stringify(favoriteList));
+    } else {
+      favoriteList.splice(
+        favoriteList.findIndex(
+          favorite => favorite.node.id === repository.node.id
+        ),
+        1
+      );
+
+      await AsyncStorage.setItem('favoriteList', JSON.stringify(favoriteList));
+
+      Alert.alert('Removido com Sucesso!');
     }
   };
 
@@ -66,13 +77,7 @@ class Trending extends Component {
   handleNavigate = repository => {
     const { navigate } = this.props.navigation;
 
-    console.log(navigate);
-    console.log(repository);
-
-    navigate('Details', {
-      name: 'Details',
-      Details: repository,
-    });
+    navigate('Detalhes', { repository });
   };
 
   renderRepositoriesList = () => (
@@ -82,40 +87,42 @@ class Trending extends Component {
           <Card>
             <Row>
               <Icon name="book" size={16} color="#586069" />
-              <Title
+              <TitleText
                 onPress={() => {
-                  this.handleNavigate();
+                  this.handleNavigate(repository);
                 }}
               >
                 {repository.node.name}
-              </Title>
+              </TitleText>
             </Row>
             <Row>
-              <Description>{repository.node.description}</Description>
+              <DescriptionSmallText>
+                {repository.node.description}
+              </DescriptionSmallText>
             </Row>
             <ContainerRepositoryInfo>
               {repository.node.primaryLanguage ? (
-                <RowLanguage>
+                <LanguageRow>
                   <LanguageColor
                     circleColor={repository.node.primaryLanguage.color}
                   />
                   <LanguageText>
                     {repository.node.primaryLanguage.name}
                   </LanguageText>
-                </RowLanguage>
+                </LanguageRow>
               ) : null}
-              <RowFork>
+              <ForkRow>
                 <Icon name="code-fork" size={16} color="#586069" />
                 <ForkText>{repository.node.forks.totalCount}</ForkText>
-              </RowFork>
-              <RowStar>
+              </ForkRow>
+              <StarRow>
                 <Icon name="star" size={16} color="#586069" />
                 <StarText>{repository.node.stargazers.totalCount}</StarText>
-              </RowStar>
+              </StarRow>
             </ContainerRepositoryInfo>
             <StarButton
               onPress={() => {
-                this.addToFavorite(repository);
+                this.changeFavorite(repository);
               }}
             >
               <Row>
@@ -157,9 +164,8 @@ const RepositoryQuery = gql`
             id
             name
             description
-            resourcePath
+            url
             hasIssuesEnabled
-            openGraphImageUrl
             owner {
               login
             }
@@ -171,6 +177,9 @@ const RepositoryQuery = gql`
               name
             }
             forks {
+              totalCount
+            }
+            issues(filterBy: { states: OPEN }) {
               totalCount
             }
           }

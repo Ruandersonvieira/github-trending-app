@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 import Trending from './pages/Trending';
 import Details from './pages/Details';
+import ViewPage from './pages/ViewPage';
 
 Icon.loadFont();
 
@@ -36,6 +37,12 @@ const Routes = createStackNavigator({
   },
   Detalhes: {
     screen: Details,
+    navigationOptions: {
+      headerTransparent: 'false',
+    },
+  },
+  ViewPage: {
+    screen: ViewPage,
     navigationOptions: {
       headerTransparent: 'false',
     },
