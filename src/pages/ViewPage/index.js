@@ -14,10 +14,6 @@ export default class ViewPage extends Component {
       <WebView
         source={{ uri: repository.node.url }}
         style={{ marginTop: 60, flex: 1 }}
-        // javaScriptEnabled
-        // domStorageEnabled
-        // useWebKit
-        // startInLoadingState
       />
     );
   }
