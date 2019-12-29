@@ -66,13 +66,7 @@ class Trending extends Component {
   handleNavigate = repository => {
     const { navigate } = this.props.navigation;
 
-    console.log(navigate);
-    console.log(repository);
-
-    navigate('Details', {
-      name: 'Details',
-      Details: repository,
-    });
+    navigate('Detalhes', { repository });
   };
 
   renderRepositoriesList = () => (
@@ -84,7 +78,7 @@ class Trending extends Component {
               <Icon name="book" size={16} color="#586069" />
               <Title
                 onPress={() => {
-                  this.handleNavigate();
+                  this.handleNavigate(repository.node);
                 }}
               >
                 {repository.node.name}

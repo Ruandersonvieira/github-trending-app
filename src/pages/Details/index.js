@@ -1,11 +1,21 @@
 import React, { Component } from 'react';
 
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 
-// import { Container } from './styles';
+import { Container } from './styles';
 
 export default class Details extends Component {
+  static navigationOptions = ({ navigation }) => ({
+    title: navigation.getParam('repository').name,
+  });
+
   render() {
-    return <View />;
+    const { navigation } = this.props;
+
+    return (
+      <View>
+        <Text>{navigation.getParam('repository').name}</Text>
+      </View>
+    );
   }
 }
