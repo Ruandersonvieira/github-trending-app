@@ -7,6 +7,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import Trending from './pages/Trending';
 import Details from './pages/Details';
 import ViewPage from './pages/ViewPage';
+import Favorite from './pages/Favorite';
 
 Icon.loadFont();
 
@@ -17,6 +18,14 @@ const mainNavigation = createMaterialBottomTabNavigator(
       navigationOptions: () => ({
         tabBarIcon: ({ focused }) => (
           <Icon name="github" size={20} color={focused ? '#fff' : '#ddd'} />
+        ),
+      }),
+    },
+    Favorites: {
+      screen: Favorite,
+      navigationOptions: () => ({
+        tabBarIcon: ({ focused }) => (
+          <Icon name="star" size={20} color={focused ? '#fff' : '#ddd'} />
         ),
       }),
     },
